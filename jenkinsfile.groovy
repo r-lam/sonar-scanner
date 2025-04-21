@@ -25,6 +25,8 @@ pipeline {
       steps {
         sh '''
           echo "Ejecutando análisis Semgrep..."
+          apt install python3 python3-pip
+          pip install semgrep
           semgrep scan ${PROJECT_ROOT} \
             --config auto \
             --timeout-threshold 10000 \
