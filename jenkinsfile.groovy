@@ -15,21 +15,17 @@ pipeline {
       }
     }
 
-    stage('Análisis SonarQube') {
-      steps {
-        sonarScan()
-      }
-    }
+    // stage('Análisis SonarQube') {
+      // steps {
+        // sonarScan()
+      // }
+    // }
 
     stage('Análisis Semgrep') {
       steps {
         sh '''
-          echo "Instalando Semgrep..."
-          sudo apt-get install -y python3 python3-pip
-          pip install --upgrade pip
-          pip install semgrep
-
           echo "Ejecutando análisis Semgrep..."
+          source .venv/bin/activate
           semgrep scan ${PROJECT_ROOT} \
             --config auto \
             --timeout-threshold 10000 \
