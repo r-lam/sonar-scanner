@@ -25,7 +25,6 @@ pipeline {
       steps {
         sh '''
           echo "Ejecutando análisis Semgrep..."
-          source .venv/bin/activate
           semgrep scan ${PROJECT_ROOT} \
             --config auto \
             --timeout-threshold 10000 \
