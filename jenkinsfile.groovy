@@ -1,7 +1,9 @@
 @Library('devsecops_library') _
 
 pipeline {
-  agent any
+  agent {
+    docker { image '061051214962.dkr.ecr.us-east-2.amazonaws.com/jenkins/build:v0.0.1' }
+  }
   environment {
     PROJECT = 'https://github.com/veracode/verademo.git'
     PROJECT_ROOT = '.'
