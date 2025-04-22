@@ -6,6 +6,9 @@ pipeline {
       yaml '''
       apiVersion: v1
       kind: Pod
+      metadata:
+        labels:
+          jenkins: worker
       spec:
         containers:
         - name: semgrep
@@ -17,8 +20,7 @@ pipeline {
           limits:
               cpu: 1000m
               memory: 2048Mi
-          command:
-          - cat
+          command: ["/bin/bash", "-c", "cat"]
           tty: true
         securityContext:
           runAsUser: 0
@@ -47,13 +49,15 @@ pipeline {
 
     stage('Análisis Semgrep') {
       steps {
-        sh '''
-          echo "Ejecutando análisis Semgrep..."
-          semgrep scan ${PROJECT_ROOT} \
-            --config auto \
-            --timeout-threshold 10000 \
-            --json -output semgrep-result.json
-        '''
+        container('semgrep') {
+          sh '''
+            echo "Ejecutando análisis Semgrep..."
+            semgrep scan ${PROJECT_ROOT} \
+              --config auto \
+              --timeout-threshold 10000 \
+              --json -output semgrep-result.json
+          '''
+        }
       }
     }
   }
