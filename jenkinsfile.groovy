@@ -28,7 +28,7 @@ pipeline {
           semgrep scan ${PROJECT_ROOT} \
             --config auto \
             --timeout-threshold 10000 \
-            --json -output semgrep-result.json
+            --json -output
         '''
       }
     }
